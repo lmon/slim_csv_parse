@@ -3,8 +3,8 @@
 $db_vars = array(
     'driver' => 'mysql',
     'host' => 'localhost',
-    'database' => 'XXX',
-    'username' => 'XXX',
+    'database' => 'ssss',
+    'username' => 'sss',
     'password' => 'XXX',
     'charset' => 'utf8',
     'collation' => 'utf8_general_ci',
