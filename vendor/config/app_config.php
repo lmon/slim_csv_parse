@@ -3,9 +3,9 @@
 $db_vars = array(
     'driver' => 'mysql',
     'host' => 'localhost',
-    'database' => 'iflistco_iflistdata_dev',
-    'username' => 'generic',
-    'password' => 'genericpass',
+    'database' => 'XXX',
+    'username' => 'XXX',
+    'password' => 'XXX',
     'charset' => 'utf8',
     'collation' => 'utf8_general_ci',
     'prefix' => '',
