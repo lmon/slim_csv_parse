@@ -1,0 +1,14 @@
+
+RewriteEngine on
+
+#RewriteCond %{REQUEST_FILENAME} !-d
+#RewriteCond %{REQUEST_FILENAME} !-f
+# eg localhost/svc/view/post/13/json
+# eg localhost/svc/list/posts/
+# eg localhost/svc/view/help
+# eg localhost/svc/view/post/13/json
+
+#RewriteRule ^([^/]*)(.*)$ index.php?action=$1&model=$2&id=$3&format=$4 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ index.php [QSA,L]
