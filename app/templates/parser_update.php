@@ -5,6 +5,8 @@
 
 Status: <?php print $status; ?> <hr>
 
-Pre Update:  <?php render_table($query_result); ?>
+DB Pre Update:  <?php print $query_result_count ?>
+<?php render_table($query_result); ?>
 
-Post Update: <?php render_table($query_result2); ?>
+DB Post Update: <?php print $query_result2_count ?>
+<?php render_table($query_result2); ?>

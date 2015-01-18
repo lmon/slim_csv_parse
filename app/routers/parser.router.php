@@ -30,7 +30,7 @@ $app->post('/parse/update', function () use ($app, $parser_helper, $capsule) {
 		$status .= "..backing up ";
 		if( $execute = $parser_helper->update_rows_from_csv() ){
 			$status .= "..updating ";
-			$result = $parser_helper->query_for_gender_blank('talent', array('talent_id', 'gender'));
+			$query_result2 = $parser_helper->query_for_gender_blank('talent', array('talent_id', 'gender'));
 		}else{
 			$status .= "..execute fail ";
 
@@ -42,8 +42,10 @@ $app->post('/parse/update', function () use ($app, $parser_helper, $capsule) {
 
     $app->render('parser_update.php', array(
     	'status' => $status, 
-    	'query_result' => $query_result,
-    	'query_result2' => $query_result2,
+    	'query_result_count' => $query_result['count'],
+    	'query_result2_count' => $query_result2['count'],
+    	'query_result' => $query_result['rows'],
+    	'query_result2' => $query_result2['rows'],
     	));
 
 
