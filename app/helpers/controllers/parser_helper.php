@@ -3,7 +3,7 @@
 class Parser_Helper { 
 	function backup_table($capsule, $table){
 		print "<br> IN ".__FUNCTION__;
-		$now = date('ymdhis');
+		$now = date('ymd_his');
 		$newtable = $table."_".$now;
 		$sql1 = "CREATE TABLE $newtable LIKE $table ";
 		$sql2 = "INSERT $newtable  SELECT * FROM ".$table ;
@@ -66,10 +66,16 @@ class Parser_Helper {
 		return $result; // count and rows
 	}
 
-	function update_rows_from_csv(){
-		print "<br> IN ".__FUNCTION__."<br>";
+	function update_rows_from_csv($file){
+		$debugging = false;
+		$sql_output = true;
+
+		if($debugging) print "<br> IN ".__FUNCTION__."<br>";
+		$number_ignored = 0;
+		$number_notfound = 0;
+		$number_updated = 0;
+		
 		$sql = "";
-		$file = '/Library/WebServer/Documents/iflist/iflist-testing/csv-data/talent_wo_gender_2858_markedMF.csv';
 		$csv = new parseCSV($file);
 		$counter = 0;
 
@@ -79,7 +85,8 @@ class Parser_Helper {
 			//$counter++;
 
 			if($data['Value'] != 'f' && $data['Value'] != 'm'){
-				// print " -- > ignoring ".$data['ID'].", ".$data['Value']."<br>"; continue;
+				$number_ignored++;
+				if($debugging) print " -- > ignoring CSV Data (bad value): ".$data['ID'].", ".$data['Value']."<br>"; continue;
 			}
 			/*
 				$sql = "UPDATE talent SET gender='". $data['Value']."' WHERE id=".$data['ID']." LIMIT 1;";
@@ -87,27 +94,38 @@ class Parser_Helper {
 				or 
 			*/
 			$talent_item = Talent::find($data['ID']);
+
 			//tsting
-					
-			
 			if(isset($talent_item->gender)){
 				
 				// print "CSV talent: " . $data['ID'].", ".$data['Value']."<br>";	
 
 				if($talent_item->gender !=''){
-					// print " -- > No Update Needed for ".$talent_item->talent_id." : ".$talent_item->gender."<br>"; continue;
+					$number_ignored++;
+					 if($debugging) print " -- > No Update Needed for DB item: ".$talent_item->talent_id." : ".$talent_item->gender."<br>"; continue;
 				}else{
+					$number_updated++;
 					$talent_item->gender = trim($data['Value']);
 					// print "DB talent :".$talent_item->talent_id.", ".$talent_item->gender."<br>";			
-					// print "Updated ? ".$talent_item->save() ."<hr>";
+					
+					if($sql_output){ // just write the sql
+						
+						$sql = "UPDATE talent SET gender='". $data['Value']."' WHERE talent_id=".$data['ID']." LIMIT 1;";
+						print "<br>\n  $sql <br>\n"; 
+						
+					}else{ // make the change in the DB!
+						if($debugging) print "Updated ? ".$talent_item->save() ."<hr>";
+					}	
 				}
 			}else{
-				// print " -- > !!!!!!! ".$data['ID']." not found in db !!!!!!!!!!<br>"; continue;
+				$number_notfound++;
+				 if($debugging) print " -- > ignoring CSV Data: ".$data['ID']. ". not found in db !!!!!!!!!!<br>"; continue;
 			}
 
 		}
-		// open file, construct querie(s)
-		// execute
+		
+		print "<h4> ignored $number_ignored  not found $number_notfound  updated $number_updated </h4>";
+
 		return true;
 	}
 	function test(){
