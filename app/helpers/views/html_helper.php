@@ -28,11 +28,14 @@ function render_h1($str){
 function render_h2($str){
     print '<h2>'.$str.'</h2>';
 }
+function render_h3($str){
+    print '<h3>'.$str.'</h3>';
+}
 
 function render_table($list, $options = array('use_head'=>0, 'head_data'=> array(),'line_count'=>1)){
 	$html = "";
 
-	$html .= '<div class="table-responsive">
+	$html .= '<div class="table-responsive scroll">
             <table class="table table-striped">';
     $counter = 0;
     foreach($list as $krow=>$vrow){
