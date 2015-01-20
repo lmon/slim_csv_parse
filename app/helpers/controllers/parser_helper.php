@@ -102,7 +102,7 @@ class Parser_Helper {
 
 				if($talent_item->gender !=''){
 					$number_ignored++;
-					 if($debugging) print " -- > No Update Needed for DB item: ".$talent_item->talent_id." : ".$talent_item->gender."<br>"; continue;
+					 if($debugging) print ">>> No Update Needed for DB item: ".$talent_item->talent_id." : ".$talent_item->gender."<br>"; continue;
 				}else{
 					$number_updated++;
 					$talent_item->gender = trim($data['Value']);
@@ -114,22 +114,22 @@ class Parser_Helper {
 						print "<br>\n  $sql <br>\n"; 
 						
 					}else{ // make the change in the DB!
-						if($debugging) print "Updated ? ".$talent_item->save() ."<hr>";
+						if($debugging) print ">>> Updated ? ".$talent_item->save() ."<hr>";
 					}	
 				}
 			}else{
 				$number_notfound++;
-				 if($debugging) print " -- > ignoring CSV Data: ".$data['ID']. ". not found in db !!!!!!!!!!<br>"; continue;
+				 if($debugging) print ">>> ignoring CSV Data: ".$data['ID']. ". not found in db !!!!!!!!!!<br>"; continue;
 			}
 
 		}
 		
-		print "<h4> ignored $number_ignored  not found $number_notfound  updated $number_updated </h4>";
+		print "<h4>>>>ignored $number_ignored  not found $number_notfound  ". ($sql_output? 'created sql for': 'updated') . " $number_updated </h4>";
 
 		return true;
 	}
 	function test(){
-		print "i am test";
+		print "i am test ".__CLASSNAME__ . "::".__FUNCTION__;
 	}
 }
 /*
